@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>CS:GO GC Inventory Editor - Генератор инвентаря</title>
+    <meta name="description" content="Лучший онлайн-редактор инвентаря для CS:GO GC (csgo_gc). Создавайте скины, ножи и StatTrak, настраивайте износ и скачивайте готовый inventory.txt в один клик.">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23c7f36b'/><text x='50' y='55' font-family='Arial,sans-serif' font-size='45' font-weight='bold' fill='%23111b0a' text-anchor='middle' dominant-baseline='middle'>GC</text></svg>">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="loading">
+        <div class="loading-brand">
+            <div class="brand-mark">GC</div>
+            CS:GO GC EDITOR
+        </div>
+        <div class="spinner"></div>
+        <p id="loading-text">Загрузка данных CS:GO...</p>
+    </div>
+
+    <header class="app-header">
+        <div class="top-bar">
+            <div class="brand">
+                <div class="brand-mark">GC</div>
+                <div class="brand-copy">
+                    <strong>CS:GO <span>GC</span> EDITOR</strong>
+                    <small>INVENTORY CONFIG GENERATOR</small>
+                </div>
+            </div>
+            
+            <div class="header-search">
+                <span class="search-icon">⌕</span>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Поиск по названию...">
+                </div>
+            </div>
+            <!-- Блок LOCAL / NO UPLOAD удален отсюда -->
+        </div>
+
+        <div class="catalog-toolbar">
+            <div class="section-heading">
+                <div class="eyebrow">CATALOG / 01</div>
+                <h1>Каталог <span>предметов</span></h1>
+                <p>Выберите предмет и настройте параметры для экспорта</p>
+            </div>
+            <div class="tabs-wrap">
+                <div class="tabs" id="tabContainer">
+                    <button class="tab-btn active" data-tab="skins">Скины</button>
+                    <button class="tab-btn" data-tab="knives">Ножи</button>
+                    <button class="tab-btn" data-tab="gloves">Перчатки</button>
+                    <button class="tab-btn" data-tab="agents">Агенты</button>
+                    <button class="tab-btn" data-tab="stickers">Наклейки</button>
+                    <button class="tab-btn" data-tab="crates">Кейсы</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="sub-bar" id="subBar">
+            <label class="filter-label" for="weaponSelect">
+                <span class="filter-symbol">⌁</span> Выберите оружие
+            </label>
+            <select id="weaponSelect">
+                <option value="all">Все оружие</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <div class="catalog-area">
+            <!-- Блок CATALOG / CS2 ITEMS / API ONLINE удален отсюда -->
+            
+            <div class="grid-viewport" id="gridViewport">
+                <div class="grid-container" id="gridContainer"></div>
+                <div class="load-more-container" id="loadMoreContainer" style="display: none;">
+                    <button class="btn btn-secondary" id="loadMoreBtn">Показать ещё</button>
+                </div>
+            </div>
+        </div>
+
+        <aside class="inventory-panel">
+            <div class="inventory-topline">
+                <span class="inventory-live"><i></i> LIVE INVENTORY</span>
+            </div>
+            <div class="inventory-header">
+                <div>
+                    <h2>📦 <span>Инвентарь</span></h2>
+                    <p>Предметы для inventory.txt</p>
+                </div>
+                <span class="count" id="invCount">0</span>
+            </div>
+            <div class="inventory-list" id="inventoryList"></div>
+            <div class="inventory-actions">
+                <button class="btn btn-primary" id="downloadBtn">
+                    <span class="button-icon">↓</span>
+                    <span>
+                        <strong>Скачать inventory.txt</strong>
+                        <small>KeyValues · items</small>
+                    </span>
+                    <span class="button-arrow">→</span>
+                </button>
+                <button class="btn btn-danger" id="clearBtn"><span>✕</span> Очистить всё</button>
+            </div>
+        </aside>
+    </div>
+
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 id="modalTitle">Настройка предмета</h2>
+            <div class="modal-meta" id="modalMeta"></div>
+            <div class="modal-divider"></div>
+
+            <div id="weaponSettings">
+                <div class="wear-field">
+                    <label>Износ (Wear) <span>FLOAT VALUE</span></label>
+                    <select id="wearSelect">
+                        <option value="Factory New">Factory New</option>
+                        <option value="Minimal Wear">Minimal Wear</option>
+                        <option value="Field-Tested" selected>Field-Tested</option>
+                        <option value="Well-Worn">Well-Worn</option>
+                        <option value="Battle-Scarred">Battle-Scarred</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Точный Float (0.000000)</label>
+                    <input type="number" id="floatInput" step="0.000001" min="0" max="1" value="0.265000">
+                </div>
+
+                <div class="input-group checkbox-group">
+                    <label>
+                        <input type="checkbox" id="statTrakCheck">
+                        <span class="checkmark"></span>
+                        StatTrak™
+                    </label>
+                </div>
+
+                <div class="input-group">
+                    <label>Свое название (Name Tag)</label>
+                    <input type="text" id="customNameInput" placeholder="Оставьте пустым для стандартного" maxlength="20">
+                </div>
+
+                <div class="input-group">
+                    <label>Экипировать</label>
+                    <div class="equip-checkboxes">
+                        <label><input type="checkbox" id="equipCT"> CT</label>
+                        <label><input type="checkbox" id="equipT"> T</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="preview-label">ПРЕДПРОСМОТР (inventory.txt)</div>
+            <div class="preview-box" id="previewBox">—</div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelBtn">Отмена</button>
+                <button class="btn btn-primary" id="addBtn">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
