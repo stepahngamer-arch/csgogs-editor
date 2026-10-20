@@ -15,3 +15,4 @@
 3. Нажмите «Скачать inventory.txt».
 4. Поместите файл в папку `csgo_gc` рядом с игрой.
 5. Запустите `csgo.exe` и наслаждайтесь скинами!ы
+https://stepahngamer-arch.github.io/csgogs-editor/
