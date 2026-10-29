@@ -25,7 +25,33 @@
         'Broken Fang Gloves': 5036
     };
 
-    const WEAPON_NAME_TO_CMD = { 'AK-47': 'weapon_ak47', 'AWP': 'weapon_awp', 'M4A4': 'weapon_m4a1', 'M4A1-S': 'weapon_m4a1_silencer', 'Desert Eagle': 'weapon_deagle', 'USP-S': 'weapon_usp_silencer', 'Glock-18': 'weapon_glock', 'P250': 'weapon_p250', 'Five-SeveN': 'weapon_fiveseven', 'Tec-9': 'weapon_tec9', 'MP9': 'weapon_mp9', 'MP7': 'weapon_mp7', 'UMP-45': 'weapon_ump45', 'P90': 'weapon_p90', 'Nova': 'weapon_nova', 'XM1014': 'weapon_xm1014', 'MAG-7': 'weapon_mag7', 'Sawed-Off': 'weapon_sawedoff', 'SSG 08': 'weapon_ssg08', 'SG 553': 'weapon_sg556', 'AUG': 'weapon_aug', 'FAMAS': 'weapon_famas', 'Galil AR': 'weapon_galilar', 'G3SG1': 'weapon_g3sg1', 'SCAR-20': 'weapon_scar20', 'PP-Bizon': 'weapon_bizon', 'MAC-10': 'weapon_mac10', 'Negev': 'weapon_negev', 'M249': 'weapon_m249', 'Karambit': 'weapon_knife_karambit', 'Bayonet': 'weapon_bayonet', 'Butterfly Knife': 'weapon_knife_butterfly', 'Flip Knife': 'weapon_knife_flip', 'Gut Knife': 'weapon_knife_gut', 'Huntsman Knife': 'weapon_knife_tactical', 'Falchion Knife': 'weapon_knife_falchion', 'Bowie Knife': 'weapon_knife_survival_bowie', 'Shadow Daggers': 'weapon_knife_push', 'Talon Knife': 'weapon_knife_widowmaker', 'Ursus Knife': 'weapon_knife_ursus', 'Navaja Knife': 'weapon_knife_gypsy_jackknife', 'Stiletto Knife': 'weapon_knife_stiletto', 'Classic Knife': 'weapon_knife_css', 'Paracord Knife': 'weapon_knife_cord', 'Survival Knife': 'weapon_knife_canis', 'Nomad Knife': 'weapon_knife_outdoor', 'Skeleton Knife': 'weapon_knife_skeleton', 'Kukri Knife': 'weapon_knife_kukri' };
+    const WEAPON_NAME_TO_CMD = {
+        'AK-47': 'weapon_ak47', 'AWP': 'weapon_awp', 'M4A4': 'weapon_m4a1', 'M4A1-S': 'weapon_m4a1_silencer',
+        'Desert Eagle': 'weapon_deagle', 'USP-S': 'weapon_usp_silencer', 'Glock-18': 'weapon_glock',
+        'P250': 'weapon_p250', 'Five-SeveN': 'weapon_fiveseven', 'Tec-9': 'weapon_tec9',
+        'MP9': 'weapon_mp9', 'MP7': 'weapon_mp7', 'UMP-45': 'weapon_ump45',
+        'P90': 'weapon_p90', 'Nova': 'weapon_nova', 'XM1014': 'weapon_xm1014',
+        'MAG-7': 'weapon_mag7', 'Sawed-Off': 'weapon_sawedoff', 'SSG 08': 'weapon_ssg08',
+        'SG 553': 'weapon_sg556', 'AUG': 'weapon_aug', 'FAMAS': 'weapon_famas',
+        'Galil AR': 'weapon_galilar', 'G3SG1': 'weapon_g3sg1', 'SCAR-20': 'weapon_scar20',
+        'PP-Bizon': 'weapon_bizon', 'MAC-10': 'weapon_mac10', 'Negev': 'weapon_negev',
+        'M249': 'weapon_m249',
+        // --- ДОБАВЛЕНО: ранее отсутствовавшие виды оружия ---
+        'Dual Berettas': 'weapon_elite',
+        'CZ75-Auto': 'weapon_cz75a',
+        'R8 Revolver': 'weapon_revolver',
+        'Zeus x27': 'weapon_taser',
+        'MP5-SD': 'weapon_mp5sd',
+        'P2000': 'weapon_hkp2000',
+        // --- Ножи ---
+        'Karambit': 'weapon_knife_karambit', 'Bayonet': 'weapon_bayonet', 'Butterfly Knife': 'weapon_knife_butterfly',
+        'Flip Knife': 'weapon_knife_flip', 'Gut Knife': 'weapon_knife_gut', 'Huntsman Knife': 'weapon_knife_tactical',
+        'Falchion Knife': 'weapon_knife_falchion', 'Bowie Knife': 'weapon_knife_survival_bowie', 'Shadow Daggers': 'weapon_knife_push',
+        'Talon Knife': 'weapon_knife_widowmaker', 'Ursus Knife': 'weapon_knife_ursus', 'Navaja Knife': 'weapon_knife_gypsy_jackknife',
+        'Stiletto Knife': 'weapon_knife_stiletto', 'Classic Knife': 'weapon_knife_css', 'Paracord Knife': 'weapon_knife_cord',
+        'Survival Knife': 'weapon_knife_canis', 'Nomad Knife': 'weapon_knife_outdoor', 'Skeleton Knife': 'weapon_knife_skeleton',
+        'Kukri Knife': 'weapon_knife_kukri'
+    };
 
     let db = { skins: [], knives: [], gloves: [], agents: [], stickers: [], crates: [] };
     let inventory = [];
@@ -38,30 +64,30 @@
     let currentFilteredList = [];
 
     const els = {
-        gridContainer: document.getElementById('gridContainer'), 
-        loadMoreBtn: document.getElementById('loadMoreBtn'), 
-        loadMoreContainer: document.getElementById('loadMoreContainer'), 
-        weaponSelect: document.getElementById('weaponSelect'), 
-        subBar: document.getElementById('subBar'), 
-        inventoryList: document.getElementById('inventoryList'), 
-        invCount: document.getElementById('invCount'), 
-        searchInput: document.getElementById('searchInput'), 
-        tabContainer: document.getElementById('tabContainer'), 
-        downloadBtn: document.getElementById('downloadBtn'), 
-        clearBtn: document.getElementById('clearBtn'), 
-        modalOverlay: document.getElementById('modalOverlay'), 
-        modalTitle: document.getElementById('modalTitle'), 
-        modalMeta: document.getElementById('modalMeta'), 
-        weaponSettings: document.getElementById('weaponSettings'), 
-        wearSelect: document.getElementById('wearSelect'), 
-        statTrakCheck: document.getElementById('statTrakCheck'), 
-        customNameInput: document.getElementById('customNameInput'), 
-        equipCT: document.getElementById('equipCT'), 
-        equipT: document.getElementById('equipT'), 
-        previewBox: document.getElementById('previewBox'), 
-        cancelBtn: document.getElementById('cancelBtn'), 
-        addBtn: document.getElementById('addBtn'), 
-        loading: document.getElementById('loading'), 
+        gridContainer: document.getElementById('gridContainer'),
+        loadMoreBtn: document.getElementById('loadMoreBtn'),
+        loadMoreContainer: document.getElementById('loadMoreContainer'),
+        weaponSelect: document.getElementById('weaponSelect'),
+        subBar: document.getElementById('subBar'),
+        inventoryList: document.getElementById('inventoryList'),
+        invCount: document.getElementById('invCount'),
+        searchInput: document.getElementById('searchInput'),
+        tabContainer: document.getElementById('tabContainer'),
+        downloadBtn: document.getElementById('downloadBtn'),
+        clearBtn: document.getElementById('clearBtn'),
+        modalOverlay: document.getElementById('modalOverlay'),
+        modalTitle: document.getElementById('modalTitle'),
+        modalMeta: document.getElementById('modalMeta'),
+        weaponSettings: document.getElementById('weaponSettings'),
+        wearSelect: document.getElementById('wearSelect'),
+        statTrakCheck: document.getElementById('statTrakCheck'),
+        customNameInput: document.getElementById('customNameInput'),
+        equipCT: document.getElementById('equipCT'),
+        equipT: document.getElementById('equipT'),
+        previewBox: document.getElementById('previewBox'),
+        cancelBtn: document.getElementById('cancelBtn'),
+        addBtn: document.getElementById('addBtn'),
+        loading: document.getElementById('loading'),
         loadingText: document.getElementById('loading-text')
     };
 
@@ -118,14 +144,51 @@
         return `★ ${raw.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}`;
     }
 
+    /**
+     * Извлекает базовое имя оружия, убирая префиксы качества/сувенира/звёздочки.
+     * Работает регистронезависимо.
+     */
     function getWeaponCmdFromName(name) {
         if (!name) return null;
-        const clean = name.replace(/^★\s*/, '').trim();
+        let clean = name
+            .replace(/^★\s*/, '')
+            .replace(/^StatTrak™\s*/i, '')
+            .replace(/^Souvenir\s*/i, '')
+            .replace(/^StatTrak\s*/i, '')
+            .trim();
+
         const base = clean.split('|')[0].trim();
-        if (WEAPON_NAME_TO_CMD[base]) return WEAPON_NAME_TO_CMD[base];
-        for (const key of Object.keys(WEAPON_NAME_TO_CMD)) { if (base === key || base.startsWith(key + ' ')) return WEAPON_NAME_TO_CMD[key]; }
+
+        // Точное совпадение (регистронезависимо)
+        const lowerBase = base.toLowerCase();
+        for (const key of Object.keys(WEAPON_NAME_TO_CMD)) {
+            if (key.toLowerCase() === lowerBase) return WEAPON_NAME_TO_CMD[key];
+        }
+        // Начинается с ключа (напр. "AK-47 " + что-то)
+        for (const key of Object.keys(WEAPON_NAME_TO_CMD)) {
+            if (lowerBase === key.toLowerCase() || lowerBase.startsWith(key.toLowerCase() + ' ')) {
+                return WEAPON_NAME_TO_CMD[key];
+            }
+        }
         if (clean.includes('Gloves') || clean.includes('Hand Wraps')) return 'weapon_gloves';
         return null;
+    }
+
+    /**
+     * Надёжное определение def_index из объекта API.
+     * Порядок: WEAPON_DEF_INDEX → s.def_index → s.weapon.weapon_id → s.weapon_id → перчатки по имени.
+     */
+    function resolveDefIndex(s, isGloves) {
+        let defIndex = WEAPON_DEF_INDEX[getWeaponCmdFromName(s.name)];
+        if (!isValidDefIndex(defIndex)) defIndex = s.def_index;
+        if (!isValidDefIndex(defIndex)) defIndex = s.weapon?.weapon_id;
+        if (!isValidDefIndex(defIndex)) defIndex = s.weapon_id;
+        if (isGloves && !isValidDefIndex(defIndex)) {
+            for (const [gName, gId] of Object.entries(GLOVE_DEF_INDEX)) {
+                if (s.name.includes(gName)) { defIndex = gId; break; }
+            }
+        }
+        return Number(defIndex) || 0;
     }
 
     async function loadData() {
@@ -142,13 +205,21 @@
                     const isGloves = s.name.toLowerCase().includes('gloves');
                     const isKnife = !isGloves && s.name.includes('★');
                     const target = isGloves ? db.gloves : (isKnife ? db.knives : db.skins);
-                    let defIndex = WEAPON_DEF_INDEX[getWeaponCmdFromName(s.name)] ?? s.def_index ?? 0;
-                    if (isGloves && (!defIndex || defIndex === 0)) {
-                        for (const [gName, gId] of Object.entries(GLOVE_DEF_INDEX)) {
-                            if (s.name.includes(gName)) { defIndex = gId; break; }
-                        }
+                    const defIndex = resolveDefIndex(s, isGloves);
+                    if (!isValidDefIndex(defIndex)) {
+                        console.warn('Нет def_index:', s.name, s);
                     }
-                    target.push({ id: s.id || s.name, name: s.name, image: s.image, rarity: s.rarity?.name || 'Default', defIndex: defIndex, weaponName: getWeaponCmdFromName(s.name), paintIndex: s.paint_index ?? 0, seed: s.pattern?.seed ?? 0, category: isGloves ? 'gloves' : (isKnife ? 'knife' : 'weapon') });
+                    target.push({
+                        id: s.id || s.name,
+                        name: s.name,
+                        image: s.image,
+                        rarity: s.rarity?.name || 'Default',
+                        defIndex: defIndex,
+                        weaponName: getWeaponCmdFromName(s.name),
+                        paintIndex: s.paint_index ?? 0,
+                        seed: s.pattern?.seed ?? 0,
+                        category: isGloves ? 'gloves' : (isKnife ? 'knife' : 'weapon')
+                    });
                 });
             }
             if (results[1].status === 'fulfilled' && Array.isArray(results[1].value)) {
@@ -158,13 +229,21 @@
                     const isKnife = !isGloves && bw.name.includes('★');
                     const target = isGloves ? db.gloves : (isKnife ? db.knives : db.skins);
                     if (!target.find(x => x.name === bw.name)) {
-                        let defIndex = WEAPON_DEF_INDEX[getWeaponCmdFromName(bw.name)] ?? bw.def_index ?? 0;
-                        if (isGloves && (!defIndex || defIndex === 0)) {
-                            for (const [gName, gId] of Object.entries(GLOVE_DEF_INDEX)) {
-                                if (bw.name.includes(gName)) { defIndex = gId; break; }
-                            }
+                        const defIndex = resolveDefIndex(bw, isGloves);
+                        if (!isValidDefIndex(defIndex)) {
+                            console.warn('Нет def_index (base_weapons):', bw.name, bw);
                         }
-                        target.push({ id: bw.id || bw.name, name: bw.name, image: bw.image, rarity: 'Default', defIndex: defIndex, weaponName: getWeaponCmdFromName(bw.name), paintIndex: bw.paint_index ?? 0, seed: 0, category: isGloves ? 'gloves' : (isKnife ? 'knife' : 'weapon') });
+                        target.push({
+                            id: bw.id || bw.name,
+                            name: bw.name,
+                            image: bw.image,
+                            rarity: 'Default',
+                            defIndex: defIndex,
+                            weaponName: getWeaponCmdFromName(bw.name),
+                            paintIndex: bw.paint_index ?? 0,
+                            seed: 0,
+                            category: isGloves ? 'gloves' : (isKnife ? 'knife' : 'weapon')
+                        });
                     }
                 });
             }
@@ -177,22 +256,22 @@
                 Object.keys(imgMap).forEach(key => {
                     if (key.startsWith('econ/gloves/')) {
                         const name = parseGloveName(key);
-                        if (name && !db.gloves.find(x => x.name === name)) { 
+                        if (name && !db.gloves.find(x => x.name === name)) {
                             let gloveDefIndex = 0;
                             for (const [gName, gId] of Object.entries(GLOVE_DEF_INDEX)) {
                                 if (name.includes(gName)) { gloveDefIndex = gId; break; }
                             }
-                            db.gloves.push({ id: 'glove_' + key, name: name, image: imgMap[key], rarity: 'Ancient', defIndex: gloveDefIndex, weaponName: 'weapon_gloves', paintIndex: 0, category: 'gloves' }); 
+                            db.gloves.push({ id: 'glove_' + key, name: name, image: imgMap[key], rarity: 'Ancient', defIndex: gloveDefIndex, weaponName: 'weapon_gloves', paintIndex: 0, category: 'gloves' });
                         }
                     }
                 });
             }
             populateWeaponDropdown(); switchTab('skins');
-        } catch (e) { 
-            console.error(e); 
-            els.loadingText.textContent = 'Ошибка загрузки. Проверьте интернет.'; 
-        } finally { 
-            setTimeout(() => { els.loading.classList.add('hidden'); }, 500); 
+        } catch (e) {
+            console.error(e);
+            els.loadingText.textContent = 'Ошибка загрузки. Проверьте интернет.';
+        } finally {
+            setTimeout(() => { els.loading.classList.add('hidden'); }, 500);
         }
     }
 
@@ -260,8 +339,8 @@
         els.addBtn.title = validDef ? '' : 'У предмета отсутствует корректный def_index — добавление невозможно';
 
         if (isWeapon) {
-            els.wearSelect.value = 'Field-Tested'; 
-            els.statTrakCheck.checked = false; 
+            els.wearSelect.value = 'Field-Tested';
+            els.statTrakCheck.checked = false;
             els.customNameInput.value = '';
             els.equipCT.checked = false; els.equipT.checked = false; els.equipCT.disabled = false; els.equipT.disabled = false; els.equipCT.parentElement.style.opacity = '1'; els.equipT.parentElement.style.opacity = '1';
             const tOnly = [4, 13, 39, 11, 17, 30, 29, 7]; const ctOnly = [61, 32, 3, 34, 10, 16, 60, 8, 38, 27];
@@ -278,7 +357,7 @@
     function updatePreview() {
         if (!currentModalItem) return;
         const isWeapon = ['weapon', 'knife', 'gloves'].includes(currentModalItem.category);
-        
+
         const currentWear = els.wearSelect.value;
         const safeFloat = isWeapon ? (WEAR_FLOAT[currentWear] || 0.265) : 0;
 
