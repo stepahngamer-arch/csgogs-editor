@@ -3,12 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>CS:GO GC Inventory Editor - Генератор инвентаря</title>
     <meta name="description" content="Лучший онлайн-редактор инвентаря для CS:GO GC (csgo_gc). Создавайте скины, ножи и StatTrak, настраивайте износ и скачивайте готовый inventory.txt в один клик.">
-    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%23c7f36b'/><text x='50' y='55' font-family='Arial,sans-serif' font-size='45' font-weight='bold' fill='%23111b0a' text-anchor='middle' dominant-baseline='middle'>GC</text></svg>">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,14 +28,12 @@
                     <small>INVENTORY CONFIG GENERATOR</small>
                 </div>
             </div>
-            
             <div class="header-search">
                 <span class="search-icon">⌕</span>
                 <div class="search-box">
                     <input type="text" id="searchInput" placeholder="Поиск по названию...">
                 </div>
             </div>
-            <!-- Блок LOCAL / NO UPLOAD удален отсюда -->
         </div>
 
         <div class="catalog-toolbar">
@@ -71,8 +66,6 @@
 
     <div class="main-container">
         <div class="catalog-area">
-            <!-- Блок CATALOG / CS2 ITEMS / API ONLINE удален отсюда -->
-            
             <div class="grid-viewport" id="gridViewport">
                 <div class="grid-container" id="gridContainer"></div>
                 <div class="load-more-container" id="loadMoreContainer" style="display: none;">
@@ -123,11 +116,6 @@
                         <option value="Well-Worn">Well-Worn</option>
                         <option value="Battle-Scarred">Battle-Scarred</option>
                     </select>
-                </div>
-
-                <div class="input-group">
-                    <label>Точный Float (0.000000)</label>
-                    <input type="number" id="floatInput" step="0.000001" min="0" max="1" value="0.265000">
                 </div>
 
                 <div class="input-group checkbox-group">
