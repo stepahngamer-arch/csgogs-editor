@@ -180,7 +180,7 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
 .modal-actions { display: flex; justify-content: flex-end; gap: 9px; }
 .modal-actions .btn { padding: 12px 20px; }
 
-/* --- ЭКРАН ЗАГРУЗКИ (ИСПРАВЛЕН) --- */
+/* --- ЭКРАН ЗАГРУЗКИ И АНИМАЦИЯ --- */
 #loading { 
     position: fixed; 
     inset: 0; 
@@ -190,7 +190,13 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     justify-content: center; 
     align-items: center; 
     z-index: 2000; 
-    transition: opacity 0.3s; 
+    transition: opacity 0.3s ease, visibility 0.3s ease; 
+}
+
+#loading.hidden { 
+    opacity: 0 !important; 
+    visibility: hidden !important; 
+    pointer-events: none !important; 
 }
 
 .loading-brand {
@@ -216,13 +222,19 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     clip-path: polygon(0 0, 100% 0, 100% 72%, 72% 100%, 0 100%);
 }
 
+/* Жесткая фиксация анимации спиннера */
+@keyframes spin { 
+    0% { transform: rotate(0deg); } 
+    100% { transform: rotate(360deg); } 
+}
+
 .spinner { 
     width: 32px; 
     height: 32px; 
     border: 2px solid #26323d; 
     border-top-color: var(--accent); 
     border-radius: 50%; 
-    animation: spin 0.8s linear infinite; 
+    animation: spin 0.8s linear infinite !important; 
     margin-bottom: 15px; 
 }
 
@@ -230,9 +242,6 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     color: var(--muted);
     font-size: 11px;
 }
-
-@keyframes spin { to { transform: rotate(360deg); } }
-#loading.hidden { opacity: 0; pointer-events: none; }
 
 /* --- МОБИЛЬНАЯ ВЕРСИЯ --- */
 @media (max-width: 1024px) {
@@ -264,4 +273,391 @@ button:focus-visible, input:focus-visible, select:focus-visible { outline: 2px s
     .skin-card { min-height: 210px; }
     .skin-card .img-wrapper { height: 110px; }
     .skin-card .name { font-size: 10px; }
+}
+
+/* --- ДОПОЛНИТЕЛЬНЫЕ ВИЗУАЛЬНЫЕ И АДАПТИВНЫЕ ИСПРАВЛЕНИЯ --- */
+
+html {
+    min-height: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    min-width: 320px;
+}
+
+.skin-card .img-wrapper img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.brand-copy,
+.section-heading,
+.inventory-panel,
+.catalog-area,
+.skin-card,
+.inv-item {
+    min-width: 0;
+}
+
+.skin-card .type-tag {
+    max-width: 48%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.sub-bar select {
+    max-width: 100%;
+}
+
+.modal-overlay {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+}
+
+.modal {
+    width: min(490px, 100%);
+    max-height: min(90vh, 90dvh);
+    overscroll-behavior: contain;
+}
+
+.input-group input,
+.modal select {
+    min-width: 0;
+}
+
+.tab-btn:focus-visible,
+.btn:focus-visible,
+.remove-btn:focus-visible,
+.skin-card:focus-visible,
+.sub-bar select:focus-visible,
+.modal select:focus-visible,
+.input-group input:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+@media (max-width: 1024px) {
+    .top-bar { gap: 16px; padding-right: 20px; padding-left: 20px; }
+    .brand { min-width: 0; }
+    .catalog-toolbar { padding-right: 20px; padding-left: 20px; }
+    .catalog-meta { padding-right: 20px; padding-left: 20px; }
+    .inventory-panel { width: clamp(260px, 30vw, 300px); }
+    .grid-viewport { padding-right: 18px; padding-left: 18px; }
+}
+
+@media (max-width: 768px) {
+    html { height: auto; min-height: 100%; }
+    body { height: auto; min-height: 100vh; min-height: 100dvh; overflow-x: hidden; overflow-y: auto; }
+    .main-container { flex: 0 0 auto; min-height: 0; }
+    .catalog-area { min-height: 0; }
+    .grid-viewport { min-height: 0; }
+    .inventory-panel { flex: 0 0 auto; min-height: 0; }
+    .inventory-list { min-height: 120px; max-height: 45vh; max-height: 45dvh; }
+    .header-status { margin-left: 0; }
+    .modal-overlay { align-items: flex-start; padding: 12px; }
+    .modal { margin: auto 0; max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); padding: 18px; }
+}
+
+@media (max-width: 480px) {
+    .top-bar { gap: 12px; padding: 12px; }
+    .brand { gap: 8px; }
+    .brand-mark { width: 36px; height: 36px; flex-shrink: 0; }
+    .brand-copy strong { font-size: 11px; letter-spacing: 1px; }
+    .brand-copy small { font-size: 8px; }
+    .header-status { font-size: 9px; white-space: normal; }
+    .catalog-toolbar { padding: 14px 12px; }
+    .sub-bar { gap: 8px; padding: 10px 12px; }
+    .sub-bar select { min-width: 0; width: 100%; }
+    .catalog-meta { padding: 0 12px; flex-wrap: wrap; }
+    .grid-viewport { padding: 12px; }
+    .grid-container { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+    .skin-card { min-width: 0; min-height: 200px; }
+    .skin-card .img-wrapper { height: 105px; padding: 10px; }
+    .skin-card .info { padding: 9px; gap: 8px; }
+    .skin-card .rarity-line { flex-wrap: wrap; }
+    .inventory-header { padding: 16px; }
+    .inventory-actions { padding: 12px; }
+    .modal-actions { gap: 8px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* --- ПОПРАВКИ ПОД АКТУАЛЬНУЮ HTML-РАЗМЕТКУ --- */
+
+.eyebrow {
+    color: var(--accent);
+    font: 9px "DM Mono", monospace;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+}
+
+.filter-symbol {
+    color: var(--accent);
+    margin-right: 5px;
+}
+
+.inventory-topline {
+    display: flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 10px 22px 0;
+}
+
+.inventory-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    font: 9px "DM Mono", monospace;
+    letter-spacing: 1.2px;
+}
+
+.inventory-live i {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    flex: 0 0 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px rgba(199, 243, 107, 0.42);
+}
+
+.inventory-header p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.inventory-actions .btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+.button-icon {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background: rgba(20, 27, 10, 0.09);
+    font-size: 21px;
+    line-height: 1;
+}
+
+.inventory-actions .btn-primary > span:nth-child(2) {
+    display: flex;
+    flex: 1 1 auto;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.inventory-actions .btn-primary strong {
+    font-size: 11px;
+    line-height: 1.35;
+}
+
+.inventory-actions .btn-primary small {
+    font-size: 9px;
+    font-weight: 500;
+    opacity: 0.68;
+}
+
+.button-arrow {
+    flex: 0 0 auto;
+    font-size: 17px;
+}
+
+.btn-secondary {
+    background: #202a34;
+    color: #dbe5ed;
+    border: 1px solid #303d49;
+}
+
+.btn-secondary:hover {
+    background: #293643;
+    border-color: #536475;
+}
+
+.load-more-container {
+    display: flex;
+    justify-content: center;
+    padding: 22px 0 8px;
+}
+
+.load-more-container .btn {
+    min-width: 170px;
+}
+
+.empty-state {
+    display: flex;
+    min-height: 160px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--muted);
+    text-align: center;
+}
+
+.empty-state .empty-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    margin-bottom: 3px;
+    border: 1px dashed #354352;
+    border-radius: 12px;
+    color: var(--accent);
+    font-size: 24px;
+}
+
+.empty-state strong {
+    color: #b6c2ce;
+    font-size: 12px;
+}
+
+.modal-divider {
+    height: 1px;
+    margin: 14px 0 20px;
+    background: linear-gradient(90deg, var(--line), transparent);
+}
+
+.wear-field {
+    margin-bottom: 16px;
+}
+
+.wear-field > label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+    color: #c8d3dd;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.wear-field > label span {
+    color: var(--muted);
+    font: 8px "DM Mono", monospace;
+    letter-spacing: 0.8px;
+    white-space: nowrap;
+}
+
+.preview-label {
+    margin-bottom: 8px;
+    color: var(--muted);
+    font: 9px "DM Mono", monospace;
+    letter-spacing: 1px;
+}
+
+.modal input[type="checkbox"],
+.modal .input-group input[type="checkbox"] {
+    appearance: auto;
+    width: 16px;
+    min-width: 16px;
+    height: 16px;
+    min-height: 16px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 3px;
+    background: transparent;
+    box-shadow: none;
+    accent-color: var(--accent);
+    flex: 0 0 16px;
+    cursor: pointer;
+}
+
+.checkbox-group label,
+.equip-checkboxes label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 24px;
+}
+
+.checkbox-group .checkmark {
+    display: none;
+}
+
+.equip-checkboxes {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.equip-checkboxes label {
+    margin-bottom: 0;
+    color: #d3dde6;
+}
+
+.image-fallback {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    min-height: 48px;
+    border: 1px dashed #344351;
+    border-radius: 8px;
+    background: radial-gradient(circle, rgba(199, 243, 107, 0.06), transparent 70%);
+    color: #6f7e8d;
+    font: 700 11px "DM Mono", monospace;
+    letter-spacing: 1px;
+}
+
+.inv-item .image-fallback {
+    width: 58px;
+    height: 46px;
+    min-height: 46px;
+    flex: 0 0 58px;
+}
+
+@media (max-width: 768px) {
+    .inventory-topline {
+        padding-right: 16px;
+        padding-left: 16px;
+    }
+    .inventory-header {
+        gap: 12px;
+    }
+    .inventory-actions .btn-primary {
+        min-height: 54px;
+    }
+    .modal-divider {
+        margin-bottom: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .inventory-header h2 {
+        font-size: 18px;
+    }
+    .inventory-header p {
+        font-size: 9px;
+    }
+    .inventory-actions .btn-primary strong {
+        font-size: 10px;
+    }
 }
